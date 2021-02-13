@@ -1,0 +1,1410 @@
+
+    
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{nobeforeafter} % prevents tcolorboxes being placing in paragraphs
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{homework2-skel}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \newcommand{\prompt}[4]{
+        \llap{{\color{#2}[#3]: #4}}\vspace{-1.25em}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    NAME: \textbf{Nigel Mansell}
+
+\hypertarget{homework-2}{%
+\section{Homework 2}\label{homework-2}}
+
+\hypertarget{objectives}{%
+\subsubsection{Objectives}\label{objectives}}
+
+\begin{itemize}
+\tightlist
+\item
+  Object orientation in Python
+\item
+  Constructing Data Pre-processing Pipelines
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Imputing
+  \item
+    Filtering
+  \item
+    Simple Numerical Methods
+  \end{itemize}
+\item
+  Do not save work within the ml\_practices folder
+
+  \begin{itemize}
+  \tightlist
+  \item
+    create a folder in your home directory for assignments, and copy the
+    templates there
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{general-references}{%
+\subsubsection{General References}\label{general-references}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html}{Sci-kit
+  Learn Pipelines}
+\item
+  \href{https://scikit-learn.org/stable/modules/classes.html\#module-sklearn.impute}{Sci-kit
+  Learn Impute}
+\item
+  \href{https://scikit-learn.org/stable/modules/classes.html\#module-sklearn.preprocessing}{Sci-kit
+  Learn Preprocessing}
+\item
+  \href{https://pandas.pydata.org/pandas-docs/version/0.16/generated/pandas.DataFrame.interpolate.html}{Pandas
+  Interpolate}
+\item
+  \href{https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.fillna.html}{Pandas
+  fillna()}
+\end{itemize}
+
+\hypertarget{hand-in-procedure}{%
+\subsubsection{Hand-In Procedure}\label{hand-in-procedure}}
+
+\begin{itemize}
+\tightlist
+\item
+  Execute all cells so they are showing correct results
+\item
+  Notebook:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Submit this file (.ipynb) to the Canvas HW0 dropbox
+  \end{itemize}
+\item
+  PDF:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    File/Export Notebook As/PDF -\textgreater{} Produces a copy of the
+    notebook in PDF format
+  \item
+    Submit the PDF file to the Gradescope HW0 dropbox
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats} \PY{k}{as} \PY{n+nn}{stats}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{pipeline} \PY{k+kn}{import} \PY{n}{Pipeline}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{base} \PY{k+kn}{import} \PY{n}{BaseEstimator}\PY{p}{,} \PY{n}{TransformerMixin}
+
+\PY{n}{FIGWIDTH} \PY{o}{=} \PY{l+m+mi}{10}
+\PY{n}{FIGHEIGHT} \PY{o}{=} \PY{l+m+mi}{2}
+
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{load-data}{%
+\section{LOAD DATA}\label{load-data}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fname} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZti{}/demo/data/subject\PYZus{}k1\PYZus{}w10\PYZus{}hw2.csv}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{}makes a dataframe from file and prints the info}
+\PY{n}{baby\PYZus{}data\PYZus{}raw} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{fname}\PY{p}{)}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 15000 entries, 0 to 14999
+Data columns (total 7 columns):
+time             15000 non-null float64
+left\_wrist\_x     13458 non-null float64
+left\_wrist\_y     13454 non-null float64
+left\_wrist\_z     13454 non-null float64
+right\_wrist\_x    13514 non-null float64
+right\_wrist\_y    13514 non-null float64
+right\_wrist\_z    13514 non-null float64
+dtypes: float64(7)
+memory usage: 820.4 KB
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Call describe() on the data to get summary statistics}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}calling describe on dataframe}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+               time  left\_wrist\_x  left\_wrist\_y  left\_wrist\_z  right\_wrist\_x  \textbackslash{}
+count  15000.000000  13458.000000  13454.000000  13454.000000   13514.000000
+mean     149.990000      0.243580      0.162076     -0.044767       0.271218
+std       86.605427      0.084823      0.093114      0.060566       0.055190
+min        0.000000      0.027525     -0.046680     -0.186060       0.081230
+25\%       74.995000      0.177911      0.096319     -0.082849       0.238649
+50\%      149.990000      0.251879      0.154445     -0.045112       0.277340
+75\%      224.985000      0.308732      0.245144     -0.004720       0.314673
+max      299.980000      0.389957      0.334027      0.147053       0.396959
+
+       right\_wrist\_y  right\_wrist\_z
+count   13514.000000   13514.000000
+mean       -0.120768      -0.207248
+std         0.047123       0.054263
+min        -0.275120      -0.311197
+25\%        -0.140773      -0.245453
+50\%        -0.111330      -0.216992
+75\%        -0.085764      -0.158773
+max        -0.040851      -0.007693
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Call head() on the data to observe the first few examples}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}calling head on dataframe}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+   time  left\_wrist\_x  left\_wrist\_y  left\_wrist\_z  right\_wrist\_x  \textbackslash{}
+0  0.00           NaN      0.293503     -0.092803       0.314738
+1  0.02           NaN      0.293445     -0.092968       0.315143
+2  0.04           NaN           NaN           NaN       0.315974
+3  0.06           NaN      0.293285     -0.093356       0.316709
+4  0.08      0.163611      0.293237     -0.093475       0.317206
+
+   right\_wrist\_y  right\_wrist\_z
+0      -0.113438      -0.154972
+1      -0.113476      -0.154807
+2      -0.113521      -0.154429
+3      -0.113555      -0.154063
+4      -0.113534      -0.153886
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Call tail() on the data to observe the last few examples}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}calling tail on dataframe}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+         time  left\_wrist\_x  left\_wrist\_y  left\_wrist\_z  right\_wrist\_x  \textbackslash{}
+14995  299.90      0.371656           NaN           NaN       0.202332
+14996  299.92      0.371723           NaN           NaN       0.202157
+14997  299.94      0.371801           NaN           NaN       0.201895
+14998  299.96      0.371866           NaN           NaN       0.201533
+14999  299.98      0.371907           NaN           NaN       0.201166
+
+       right\_wrist\_y  right\_wrist\_z
+14995      -0.073395      -0.310776
+14996      -0.073288      -0.310726
+14997      -0.073102      -0.310798
+14998      -0.072929      -0.310848
+14999      -0.072672      -0.310929
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Display the column names for the data}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}Gets all column names in the form of an array}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['time', 'left\_wrist\_x', 'left\_wrist\_y', 'left\_wrist\_z',
+       'right\_wrist\_x', 'right\_wrist\_y', 'right\_wrist\_z'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Determine whether any data are NaN. Use isna() and}
+\PY{l+s+sd}{any() to obtain a summary of which features have at }
+\PY{l+s+sd}{least one missing value}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}displays if column has NaN or not}
+\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+time             False
+left\_wrist\_x      True
+left\_wrist\_y      True
+left\_wrist\_z      True
+right\_wrist\_x     True
+right\_wrist\_y     True
+right\_wrist\_z     True
+dtype: bool
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{create-pipeline-elements}{%
+\section{Create Pipeline Elements}\label{create-pipeline-elements}}
+
+In the lecture, some of the Pipeline components might have taken in or
+returned numpy arrays and others pandas DataFrames. For this assignment,
+transform methods for all the Pipeline components will take input as a
+pandas DataFrame and return a DataFrame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} PROVIDED}
+\PY{l+s+sd}{Pipeline component object for selecting a subset of specified features}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{k}{class} \PY{n+nc}{DataFrameSelector}\PY{p}{(}\PY{n}{BaseEstimator}\PY{p}{,} \PY{n}{TransformerMixin}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{attribs}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{=} \PY{n}{attribs}
+    
+    \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}
+    
+    \PY{k}{def} \PY{n+nf}{transform}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        PARAMS:}
+\PY{l+s+sd}{            X: is a DataFrame}
+\PY{l+s+sd}{        RETURNS: a DataFrame of the selected attributes}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{k}{return} \PY{n}{X}\PY{p}{[}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs}\PY{p}{]}
+
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Complete the Pipeline component object for interpolating and filling in }
+\PY{l+s+sd}{gaps within the data. Whenever data are missing inbetween valid values, }
+\PY{l+s+sd}{use interpolation to fill in the gaps. For example,}
+\PY{l+s+sd}{    1.2 NaN NaN 1.5 }
+\PY{l+s+sd}{becomes}
+\PY{l+s+sd}{    1.2 1.3 1.4 1.5 }
+
+\PY{l+s+sd}{Whenever data are missing on the edges of the data, fill in the gaps}
+\PY{l+s+sd}{with the first available valid value. For example,}
+\PY{l+s+sd}{    NaN NaN 2.3 3.6 3.2 NaN}
+\PY{l+s+sd}{becomes}
+\PY{l+s+sd}{    2.3 2.3 2.3 3.6 3.2 3.2}
+\PY{l+s+sd}{The transform() method should fill in the holes and the edge cases.}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k}{class} \PY{n+nc}{InterpolationImputer}\PY{p}{(}\PY{n}{BaseEstimator}\PY{p}{,} \PY{n}{TransformerMixin}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{quadratic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{method} \PY{o}{=} \PY{n}{method}
+    
+    \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}
+    
+    \PY{k}{def} \PY{n+nf}{transform}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} TODO}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        PARAMS:}
+\PY{l+s+sd}{            X: is a DataFrame}
+\PY{l+s+sd}{        RETURNS: a DataFrame without NaNs}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        
+        \PY{c+c1}{\PYZsh{}creates a copy of the dataframe, calls interpolate and bfill to fill NaN values, return copy }
+        \PY{n}{Xout} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} TODO: Interpolate holes within the data}
+        \PY{n}{Xout} \PY{o}{=} \PY{n}{Xout}\PY{o}{.}\PY{n}{interpolate}\PY{p}{(}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} TODO: Fill in the NaNs on the edges of the data}
+        \PY{n}{Xout} \PY{o}{=} \PY{n}{Xout}\PY{o}{.}\PY{n}{bfill}\PY{p}{(}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} TODO: return the imputed dataframe}
+        \PY{k}{return} \PY{n}{Xout}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Complete the Pipeline component object for smoothing specific features}
+\PY{l+s+sd}{using a gaussian kernel. Use the following formula to apply the filter:}
+\PY{l+s+sd}{    x\PYZsq{}[t] = ( w[0]*x[t\PYZhy{}3] + w[1]*x[t\PYZhy{}2] + w[2]*x[t\PYZhy{}1] + w[3]*x[t]}
+\PY{l+s+sd}{           + w[4]*x[t+1] + w[5]*x[t+2] + w[6]*x[t+3])}
+\PY{l+s+sd}{    DISCLAIMER: if you implement this computation on more than one line, }
+\PY{l+s+sd}{                make sure to place parentheses around the entire expression }
+\PY{l+s+sd}{                such that the interpreter reads the lines as all part of }
+\PY{l+s+sd}{                one expression}
+\PY{l+s+sd}{This can be implemented similarly to how the derivative is computed. }
+\PY{l+s+sd}{Additionally, pad both ends of x with three instances of the adjacent}
+\PY{l+s+sd}{values, before applying the 7\PYZhy{}width filter, to maintain the original signal }
+\PY{l+s+sd}{length and smoothness. For example,}
+\PY{l+s+sd}{                1.3 2.1 4.4 4.1 3.2}
+\PY{l+s+sd}{would be padded as}
+\PY{l+s+sd}{    1.3 1.3 1.3 1.3 2.1 4.4 4.1 3.2 3.2 3.2 3.2}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k}{def} \PY{n+nf}{computeweights}\PY{p}{(}\PY{n}{length}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{sig}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{    Computes the weights for a Gaussian filter kernel}
+\PY{l+s+sd}{    PARAMS:}
+\PY{l+s+sd}{        length: the number of terms in the filter kernel}
+\PY{l+s+sd}{        sig: the standard deviation (i.e. the scale) of the Gaussian}
+\PY{l+s+sd}{    RETURNS: a list of filter weights for the Gaussian kernel}
+\PY{l+s+sd}{    \PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{2.5}\PY{p}{,} \PY{n}{length}\PY{p}{)}
+    \PY{n}{kernel} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{n}{sig}\PY{p}{)}
+    \PY{k}{return} \PY{n}{kernel} \PY{o}{/} \PY{n}{kernel}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{class} \PY{n+nc}{GaussianFilter}\PY{p}{(}\PY{n}{BaseEstimator}\PY{p}{,} \PY{n}{TransformerMixin}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{attribs}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{kernelsize}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{sig}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{=} \PY{n}{attribs}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{kernelsize} \PY{o}{=} \PY{n}{kernelsize}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sig} \PY{o}{=} \PY{n}{sig}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights} \PY{o}{=} \PY{n}{computeweights}\PY{p}{(}\PY{n}{length}\PY{o}{=}\PY{n}{kernelsize}\PY{p}{,} \PY{n}{sig}\PY{o}{=}\PY{n}{sig}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KERNEL WEIGHTS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights}\PY{p}{)}
+
+    \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}
+    
+    \PY{k}{def} \PY{n+nf}{transform}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} TODO}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        PARAMS:}
+\PY{l+s+sd}{            X: is a DataFrame}
+\PY{l+s+sd}{        RETURNS: a DataFrame with the smoothed signals}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{n}{w} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights}
+        \PY{n}{Xout} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{==} \PY{k+kc}{None}\PY{p}{:}
+            \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{=} \PY{n}{Xout}\PY{o}{.}\PY{n}{columns}
+        
+        \PY{c+c1}{\PYZsh{}pads then uses the function in comment, returns copy }
+        \PY{k}{for} \PY{n}{attrib} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs}\PY{p}{:}
+            \PY{n}{values} \PY{o}{=} \PY{n}{Xout}\PY{p}{[}\PY{n}{attrib}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+            \PY{c+c1}{\PYZsh{} TODO: pad the data as previously described}
+            \PY{n}{values} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{values}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{p}{[}\PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+            \PY{n}{values} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{values}\PY{p}{,} \PY{p}{[}\PY{n}{values}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{values}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{values}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} TODO: filter the data}
+            \PY{n}{index} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{values}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{:}
+                \PY{n}{Xout}\PY{p}{[}\PY{n}{attrib}\PY{p}{]}\PY{p}{[}\PY{n}{index}\PY{p}{]} \PY{o}{=} \PY{p}{(} \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{+} \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} 
+                                       \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{p}{]}\PY{o}{+} \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} 
+                                       \PY{n}{w}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{]}\PY{o}{*}\PY{n}{values}\PY{p}{[}\PY{n}{t}\PY{o}{+}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+                \PY{n}{index}\PY{o}{+}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{c+c1}{\PYZsh{} TODO: return filtered dataframe}
+        \PY{k}{return} \PY{n}{Xout}
+
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} PROVIDED}
+\PY{l+s+sd}{Pipeline component object for computing the derivative for specified features}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{k}{class} \PY{n+nc}{DerivativeComputer}\PY{p}{(}\PY{n}{BaseEstimator}\PY{p}{,} \PY{n}{TransformerMixin}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{attribs}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{prefix}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{dt}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{=} \PY{n}{attribs}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{prefix} \PY{o}{=} \PY{n}{prefix}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dt} \PY{o}{=} \PY{n}{dt}
+    
+    \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}
+    
+    \PY{k}{def} \PY{n+nf}{transform}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        PARAMS:}
+\PY{l+s+sd}{            X: is a DataFrame}
+\PY{l+s+sd}{        RETURNS: a DataFrame with additional features for the derivatives}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{n}{Xout} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{==} \PY{k+kc}{None}\PY{p}{:}
+            \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs} \PY{o}{=} \PY{n}{Xout}\PY{o}{.}\PY{n}{columns}
+        
+        \PY{k}{for} \PY{n}{attrib} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{attribs}\PY{p}{:}
+            \PY{n}{vals} \PY{o}{=} \PY{n}{Xout}\PY{p}{[}\PY{n}{attrib}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+            \PY{n}{diff} \PY{o}{=} \PY{n}{vals}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{vals}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{deriv} \PY{o}{=} \PY{n}{diff} \PY{o}{/} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dt}
+            \PY{n}{deriv} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{deriv}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{attrib\PYZus{}name} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{prefix} \PY{o}{+} \PY{n}{attrib}
+            \PY{n}{Xout}\PY{p}{[}\PY{n}{attrib\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{deriv}\PY{p}{)}
+
+        \PY{k}{return} \PY{n}{Xout}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{construct-pipeline}{%
+\section{Construct Pipeline}\label{construct-pipeline}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{selected\PYZus{}names} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left\PYZus{}wrist\PYZus{}x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left\PYZus{}wrist\PYZus{}y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left\PYZus{}wrist\PYZus{}z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{selected\PYZus{}inds} \PY{o}{=} \PY{p}{[}\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{get\PYZus{}loc}\PY{p}{(}\PY{n}{name}\PY{p}{)} \PY{k}{for} \PY{n}{name} \PY{o+ow}{in} \PY{n}{selected\PYZus{}names}\PY{p}{]}
+\PY{n}{nselected} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{selected\PYZus{}names}\PY{p}{)}
+\PY{n}{time} \PY{o}{=} \PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+\PY{n}{Xsel\PYZus{}raw} \PY{o}{=} \PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{p}{[}\PY{n}{selected\PYZus{}names}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'numpy.ndarray'>
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Create a pipeline that:}
+\PY{l+s+sd}{1. Selects a subset of features}
+\PY{l+s+sd}{2. Fills gaps within the data by linearly interpolating the values }
+\PY{l+s+sd}{   in between existing data and fills the remaining gaps at the edges}
+\PY{l+s+sd}{   of the data with the first or last valid value}
+\PY{l+s+sd}{3. Compute the derivatives of the selected features. The data are }
+\PY{l+s+sd}{   sampled at 50 Hz, therefore, the period or elapsed time (dt) between }
+\PY{l+s+sd}{   the samples is .02 seconds (dt=.02)}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}creating pipe1}
+\PY{n}{pipe1} \PY{o}{=} \PY{n}{Pipeline}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{selector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{DataFrameSelector}\PY{p}{(}\PY{n}{selected\PYZus{}names}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{linear}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{InterpolationImputer}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{derivative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{DerivativeComputer}\PY{p}{(}\PY{n}{dt} \PY{o}{=} \PY{o}{.}\PY{l+m+mi}{02}\PY{p}{)}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Create a pipeline that:}
+\PY{l+s+sd}{1. Selects a subset of features}
+\PY{l+s+sd}{2. Fills gaps within the data by linearly interpolating the values }
+\PY{l+s+sd}{   in between existing data and fills the remaining gaps at the edges}
+\PY{l+s+sd}{   of the data with the first or last valid value}
+\PY{l+s+sd}{3. Smooth the data with a Gaussian Filter. Use a standard deviation }
+\PY{l+s+sd}{   of 2 and a kernel size of 7 for the filter}
+\PY{l+s+sd}{4. Compute the derivatives of the selected features. The data are }
+\PY{l+s+sd}{   sampled at 50 Hz, therefore, the period or elapsed time (dt) between }
+\PY{l+s+sd}{   the samples is .02 seconds (dt=.02)}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}creating pipe2}
+\PY{n}{pipe2} \PY{o}{=} \PY{n}{Pipeline}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{selector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{DataFrameSelector}\PY{p}{(}\PY{n}{selected\PYZus{}names}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{linear}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{InterpolationImputer}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{filter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{GaussianFilter}\PY{p}{(}\PY{n}{selected\PYZus{}names}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{derivative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{DerivativeComputer}\PY{p}{(}\PY{n}{dt}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{02}\PY{p}{)}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+KERNEL WEIGHTS [0.08868144 0.13687641 0.17759311 0.19369807 0.17759311
+0.13687641
+ 0.08868144]
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Fit both Pipelines to the data and transform the data}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}fits and transforms both }
+\PY{n}{baby\PYZus{}data1} \PY{o}{=} \PY{n}{pipe1}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{p}{)}
+\PY{n}{baby\PYZus{}data2} \PY{o}{=} \PY{n}{pipe2}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{p}{)}
+
+
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Display the summary statistics for the pre\PYZhy{}processed data}
+\PY{l+s+sd}{from both pipelines}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}displaying both}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{verbatim}
+       left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  \
+0          0.163611      0.293503     -0.092803        0.000000   
+1          0.163611      0.293445     -0.092968        0.000000   
+2          0.163611      0.293365     -0.093162        0.000000   
+3          0.163611      0.293285     -0.093356        0.000000   
+4          0.163611      0.293237     -0.093475       -0.011650   
+5          0.163378      0.293203     -0.093658       -0.011950   
+6          0.163139      0.293190     -0.093735       -0.009400   
+7          0.162951      0.293191     -0.093861       -0.012850   
+8          0.162694      0.293186     -0.093938       -0.008750   
+9          0.162519      0.293118     -0.094113       -0.012300   
+10         0.162273      0.293101     -0.094198       -0.010450   
+11         0.162064      0.293084     -0.094333       -0.010050   
+12         0.161863      0.293077     -0.094401       -0.004800   
+13         0.161767      0.293065     -0.094490       -0.003550   
+14         0.161696      0.293070     -0.094539        0.001400   
+15         0.161724      0.293150     -0.094562        0.004700   
+16         0.161818      0.293317     -0.094441        0.009500   
+17         0.162008      0.293513     -0.094381        0.009800   
+18         0.162204      0.293671     -0.094338        0.012550   
+19         0.162455      0.293684     -0.094440        0.012550   
+20         0.162706      0.293697     -0.094541        0.011850   
+21         0.162943      0.293628     -0.094772        0.008325   
+22         0.163110      0.293576     -0.094975        0.008325   
+23         0.163276      0.293524     -0.095178       -0.003950   
+24         0.163197      0.293579     -0.095236       -0.003050   
+25         0.163136      0.293566     -0.095376       -0.008800   
+26         0.162960      0.293585     -0.095382       -0.010050   
+27         0.162759      0.293538     -0.095511       -0.010050   
+28         0.162558      0.293491     -0.095640       -0.009300   
+29         0.162372      0.293422     -0.095743       -0.014100   
+...             ...           ...           ...             ...   
+14970      0.373774      0.085690     -0.081843       -0.003700   
+14971      0.373700      0.085588     -0.082146       -0.001950   
+14972      0.373661      0.085486     -0.082370       -0.000850   
+14973      0.373644      0.085377     -0.082788        0.001600   
+14974      0.373676      0.085400     -0.083032        0.001900   
+14975      0.373714      0.085329     -0.083364        0.002500   
+14976      0.373764      0.085266     -0.083650       -0.001350   
+14977      0.373737      0.085164     -0.084194       -0.007100   
+14978      0.373595      0.084965     -0.084772       -0.007100   
+14979      0.373453      0.084766     -0.085350       -0.011950   
+14980      0.373214      0.084582     -0.086000       -0.016150   
+14981      0.372891      0.084413     -0.086703       -0.021075   
+14982      0.372470      0.084140     -0.087417       -0.021075   
+14983      0.372048      0.083866     -0.088130       -0.016900   
+14984      0.371710      0.083654     -0.088758       -0.014850   
+14985      0.371413      0.083326     -0.089609       -0.006200   
+14986      0.371289      0.083080     -0.090275       -0.006200   
+14987      0.371165      0.082834     -0.090941        0.001300   
+14988      0.371191      0.082705     -0.091333        0.002100   
+14989      0.371233      0.082461     -0.091652        0.002400   
+14990      0.371281      0.082317     -0.092033        0.005100   
+14991      0.371383      0.082065     -0.092307        0.006150   
+14992      0.371506      0.082065     -0.092307        0.006550   
+14993      0.371637      0.082065     -0.092307        0.000475   
+14994      0.371646      0.082065     -0.092307        0.000475   
+14995      0.371656      0.082065     -0.092307        0.003350   
+14996      0.371723      0.082065     -0.092307        0.003900   
+14997      0.371801      0.082065     -0.092307        0.003250   
+14998      0.371866      0.082065     -0.092307        0.002050   
+14999      0.371907      0.082065     -0.092307        0.000000   
+
+       d_left_wrist_y  d_left_wrist_z  
+0           -0.002900       -0.008250  
+1           -0.004000       -0.009700  
+2           -0.004000       -0.009700  
+3           -0.002400       -0.005950  
+4           -0.001700       -0.009150  
+5           -0.000650       -0.003850  
+6            0.000050       -0.006300  
+7           -0.000250       -0.003850  
+8           -0.003400       -0.008750  
+9           -0.000850       -0.004250  
+10          -0.000850       -0.006750  
+11          -0.000350       -0.003400  
+12          -0.000600       -0.004450  
+13           0.000250       -0.002450  
+14           0.004000       -0.001150  
+15           0.008350        0.006050  
+16           0.009800        0.003000  
+17           0.007900        0.002150  
+18           0.000650       -0.005075  
+19           0.000650       -0.005075  
+20          -0.003450       -0.011550  
+21          -0.002600       -0.010150  
+22          -0.002600       -0.010150  
+23           0.002750       -0.002900  
+24          -0.000650       -0.007000  
+25           0.000950       -0.000300  
+26          -0.002350       -0.006450  
+27          -0.002350       -0.006450  
+28          -0.003450       -0.005150  
+29          -0.000300       -0.000600  
+...               ...             ...  
+14970       -0.005100       -0.015150  
+14971       -0.005100       -0.011200  
+14972       -0.005450       -0.020900  
+14973        0.001150       -0.012200  
+14974       -0.003550       -0.016600  
+14975       -0.003150       -0.014300  
+14976       -0.005100       -0.027200  
+14977       -0.009950       -0.028900  
+14978       -0.009950       -0.028900  
+14979       -0.009200       -0.032500  
+14980       -0.008450       -0.035150  
+14981       -0.013675       -0.035675  
+14982       -0.013675       -0.035675  
+14983       -0.010600       -0.031400  
+14984       -0.016400       -0.042550  
+14985       -0.012300       -0.033300  
+14986       -0.012300       -0.033300  
+14987       -0.006450       -0.019600  
+14988       -0.012200       -0.015950  
+14989       -0.007200       -0.019050  
+14990       -0.012600       -0.013700  
+14991        0.000000        0.000000  
+14992        0.000000        0.000000  
+14993        0.000000        0.000000  
+14994        0.000000        0.000000  
+14995        0.000000        0.000000  
+14996        0.000000        0.000000  
+14997        0.000000        0.000000  
+14998        0.000000        0.000000  
+14999        0.000000        0.000000  
+
+[15000 rows x 6 columns]
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+       left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  \
+0          0.163611      0.293454     -0.092930        0.000000   
+1          0.163611      0.293414     -0.093034       -0.001033   
+2          0.163590      0.293364     -0.093168       -0.002654   
+3          0.163537      0.293312     -0.093315       -0.004538   
+4          0.163446      0.293265     -0.093468       -0.006805   
+5          0.163310      0.293229     -0.093606       -0.008588   
+6          0.163139      0.293200     -0.093736       -0.010108   
+7          0.162936      0.293178     -0.093855       -0.010991   
+8          0.162717      0.293156     -0.093973       -0.010829   
+9          0.162500      0.293135     -0.094085       -0.010186   
+10         0.162296      0.293114     -0.094195       -0.009302   
+11         0.162110      0.293096     -0.094296       -0.007476   
+12         0.161961      0.293089     -0.094385       -0.005258   
+13         0.161856      0.293108     -0.094441       -0.002108   
+14         0.161813      0.293159     -0.094470        0.001097   
+15         0.161835      0.293243     -0.094468        0.004389   
+16         0.161923      0.293347     -0.094455        0.007123   
+17         0.162066      0.293457     -0.094445        0.009350   
+18         0.162253      0.293550     -0.094464        0.010478   
+19         0.162462      0.293611     -0.094525        0.010826   
+20         0.162679      0.293631     -0.094638        0.009379   
+21         0.162866      0.293624     -0.094780        0.007215   
+22         0.163011      0.293602     -0.094939        0.003927   
+23         0.163089      0.293584     -0.095085        0.000266   
+24         0.163094      0.293568     -0.095218       -0.003244   
+25         0.163030      0.293556     -0.095331       -0.006034   
+26         0.162909      0.293540     -0.095433       -0.008585   
+27         0.162737      0.293519     -0.095522       -0.009834   
+28         0.162540      0.293481     -0.095607       -0.011094   
+29         0.162319      0.293439     -0.095675       -0.011601   
+...             ...           ...           ...             ...   
+14970      0.373806      0.085737     -0.081805       -0.003118   
+14971      0.373744      0.085616     -0.082124       -0.001914   
+14972      0.373706      0.085517     -0.082436       -0.000673   
+14973      0.373692      0.085441     -0.082741        0.000124   
+14974      0.373695      0.085372     -0.083066       -0.000008   
+14975      0.373694      0.085296     -0.083427       -0.000876   
+14976      0.373677      0.085202     -0.083839       -0.002708   
+14977      0.373623      0.085084     -0.084302       -0.005433   
+14978      0.373514      0.084937     -0.084833       -0.008801   
+14979      0.373338      0.084764     -0.085422       -0.012289   
+14980      0.373092      0.084565     -0.086064       -0.014978   
+14981      0.372793      0.084350     -0.086726       -0.016589   
+14982      0.372461      0.084117     -0.087417       -0.016679   
+14983      0.372127      0.083872     -0.088123       -0.015369   
+14984      0.371820      0.083616     -0.088833       -0.012466   
+14985      0.371571      0.083364     -0.089514       -0.008757   
+14986      0.371396      0.083122     -0.090144       -0.005102   
+14987      0.371294      0.082898     -0.090711       -0.001861   
+14988      0.371256      0.082681     -0.091205        0.000909   
+14989      0.371274      0.082495     -0.091591        0.002794   
+14990      0.371330      0.082340     -0.091883        0.003848   
+14991      0.371407      0.082221     -0.092082        0.003882   
+14992      0.371485      0.082135     -0.092211        0.003718   
+14993      0.371559      0.082087     -0.092283        0.003438   
+14994      0.371628      0.082065     -0.092307        0.003035   
+14995      0.371689      0.082065     -0.092307        0.002698   
+14996      0.371743      0.082065     -0.092307        0.002315   
+14997      0.371789      0.082065     -0.092307        0.002187   
+14998      0.371833      0.082065     -0.092307        0.001805   
+14999      0.371869      0.082065     -0.092307        0.000000   
+
+       d_left_wrist_y  d_left_wrist_z  
+0           -0.002032       -0.005176  
+1           -0.002479       -0.006693  
+2           -0.002599       -0.007381  
+3           -0.002366       -0.007645  
+4           -0.001789       -0.006904  
+5           -0.001438       -0.006467  
+6           -0.001136       -0.005942  
+7           -0.001075       -0.005937  
+8           -0.001052       -0.005563  
+9           -0.001050       -0.005522  
+10          -0.000925       -0.005032  
+11          -0.000354       -0.004443  
+12           0.000962       -0.002823  
+13           0.002541       -0.001439  
+14           0.004231        0.000107  
+15           0.005188        0.000615  
+16           0.005500        0.000518  
+17           0.004667       -0.000945  
+18           0.003023       -0.003036  
+19           0.000993       -0.005665  
+20          -0.000337       -0.007092  
+21          -0.001113       -0.007982  
+22          -0.000896       -0.007299  
+23          -0.000785       -0.006634  
+24          -0.000585       -0.005668  
+25          -0.000831       -0.005083  
+26          -0.001048       -0.004422  
+27          -0.001875       -0.004275  
+28          -0.002106       -0.003408  
+29          -0.002713       -0.003575  
+...               ...             ...  
+14970       -0.006075       -0.015953  
+14971       -0.004921       -0.015615  
+14972       -0.003832       -0.015228  
+14973       -0.003409       -0.016269  
+14974       -0.003822       -0.018061  
+14975       -0.004717       -0.020590  
+14976       -0.005876       -0.023133  
+14977       -0.007355       -0.026556  
+14978       -0.008675       -0.029468  
+14979       -0.009948       -0.032085  
+14980       -0.010755       -0.033102  
+14981       -0.011625       -0.034571  
+14982       -0.012268       -0.035293  
+14983       -0.012790       -0.035486  
+14984       -0.012584       -0.034075  
+14985       -0.012108       -0.031479  
+14986       -0.011206       -0.028326  
+14987       -0.010841       -0.024697  
+14988       -0.009286       -0.019340  
+14989       -0.007773       -0.014591  
+14990       -0.005961       -0.009958  
+14991       -0.004305       -0.006455  
+14992       -0.002363       -0.003565  
+14993       -0.001117       -0.001215  
+14994        0.000000        0.000000  
+14995        0.000000        0.000000  
+14996        0.000000        0.000000  
+14997        0.000000        0.000000  
+14998        0.000000        0.000000  
+14999        0.000000        0.000000  
+
+[15000 rows x 6 columns]
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Display the first few values for the pre\PYZhy{}processed data}
+\PY{l+s+sd}{from both pipelines}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}displaying both heads}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{verbatim}
+   left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  d_left_wrist_y  \
+0      0.163611      0.293503     -0.092803         0.00000         -0.0029   
+1      0.163611      0.293445     -0.092968         0.00000         -0.0040   
+2      0.163611      0.293365     -0.093162         0.00000         -0.0040   
+3      0.163611      0.293285     -0.093356         0.00000         -0.0024   
+4      0.163611      0.293237     -0.093475        -0.01165         -0.0017   
+
+   d_left_wrist_z  
+0        -0.00825  
+1        -0.00970  
+2        -0.00970  
+3        -0.00595  
+4        -0.00915  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  d_left_wrist_y  \
+0      0.163611      0.293454     -0.092930        0.000000       -0.002032   
+1      0.163611      0.293414     -0.093034       -0.001033       -0.002479   
+2      0.163590      0.293364     -0.093168       -0.002654       -0.002599   
+3      0.163537      0.293312     -0.093315       -0.004538       -0.002366   
+4      0.163446      0.293265     -0.093468       -0.006805       -0.001789   
+
+   d_left_wrist_z  
+0       -0.005176  
+1       -0.006693  
+2       -0.007381  
+3       -0.007645  
+4       -0.006904  
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Display the last few values for the pre\PYZhy{}processed data}
+\PY{l+s+sd}{from both pipelines}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}displaying both tails}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{verbatim}
+       left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  \
+14995      0.371656      0.082065     -0.092307         0.00335   
+14996      0.371723      0.082065     -0.092307         0.00390   
+14997      0.371801      0.082065     -0.092307         0.00325   
+14998      0.371866      0.082065     -0.092307         0.00205   
+14999      0.371907      0.082065     -0.092307         0.00000   
+
+       d_left_wrist_y  d_left_wrist_z  
+14995             0.0             0.0  
+14996             0.0             0.0  
+14997             0.0             0.0  
+14998             0.0             0.0  
+14999             0.0             0.0  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+       left_wrist_x  left_wrist_y  left_wrist_z  d_left_wrist_x  \
+14995      0.371689      0.082065     -0.092307        0.002698   
+14996      0.371743      0.082065     -0.092307        0.002315   
+14997      0.371789      0.082065     -0.092307        0.002187   
+14998      0.371833      0.082065     -0.092307        0.001805   
+14999      0.371869      0.082065     -0.092307        0.000000   
+
+       d_left_wrist_y  d_left_wrist_z  
+14995             0.0             0.0  
+14996             0.0             0.0  
+14997             0.0             0.0  
+14998             0.0             0.0  
+14999             0.0             0.0  
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Construct plots comparing the raw data to the pre\PYZhy{}processed data }
+\PY{l+s+sd}{for each selected feature from both pipelines. For each selected }
+\PY{l+s+sd}{feature, create a figure displaying the raw data and the cleaned }
+\PY{l+s+sd}{data in the same subplot. The raw data should be shifted upwards }
+\PY{l+s+sd}{to clearly observe where the gaps are filled in the cleaned data. }
+\PY{l+s+sd}{There should be three subplots per feature figure. Each subplot }
+\PY{l+s+sd}{is in a separate row.}
+\PY{l+s+sd}{    subplot(1) will compare the original raw data to the pipeline1 }
+\PY{l+s+sd}{               pre\PYZhy{}processed data}
+\PY{l+s+sd}{    subplot(2) will compare the original raw data to the pipeline2 }
+\PY{l+s+sd}{               pre\PYZhy{}processed data}
+\PY{l+s+sd}{    subplot(3) will compare pipeline1 to pipeline2. Set the x limit }
+\PY{l+s+sd}{               to 45 and 55 seconds}
+\PY{l+s+sd}{For all subplots, include axis labels, legends and titles.}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{}creates a copy of data to drop time}
+\PY{n}{noTime} \PY{o}{=} \PY{n}{baby\PYZus{}data\PYZus{}raw}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{noTime}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{35}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+\PY{k}{del} \PY{n}{noTime}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{3.0}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}geting column names}
+\PY{n}{origColNames} \PY{o}{=} \PY{n}{noTime}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}
+\PY{n}{babyDataNames} \PY{o}{=} \PY{n}{baby\PYZus{}data1}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k+kn}{import} \PY{n}{transforms}
+\PY{n}{limit1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{time} \PY{o}{==} \PY{l+m+mi}{45}\PY{p}{)}
+\PY{n}{limit2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{time} \PY{o}{==} \PY{l+m+mi}{55}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}loops through names to plot the data, transform is used to shit upward.}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{origColNames}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}to clean up empty subplots}
+    \PY{k}{if}\PY{p}{(}\PY{n}{origColNames}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{==} \PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Entry}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original vs pipeline1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{transform} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Affine2D}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{translate}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.250}\PY{p}{)} \PY{o}{+} \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{transData}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noTime}\PY{p}{[}\PY{n}{origColNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Original}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{transform}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{[}\PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pipeline1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Length of Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{transform} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Affine2D}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{translate}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.30}\PY{p}{)} \PY{o}{+} \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{transData}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original vs pipeline2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noTime}\PY{p}{[}\PY{n}{origColNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Original}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{transform}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{[}\PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pipeline2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{fig}\PY{o}{.}\PY{n}{delaxes}\PY{p}{(}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+        \PY{n}{fig}\PY{o}{.}\PY{n}{delaxes}\PY{p}{(}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{limit1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{limit2}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seconds}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{[}\PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pipeline1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{[}\PY{n}{babyDataNames}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pipeline2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} TODO}
+\PY{l+s+sd}{Construct plots for each feature presenting the feature and its }
+\PY{l+s+sd}{derivative from both pipelines. Each figure should have }
+\PY{l+s+sd}{3 subplots:}
+\PY{l+s+sd}{    1: the pipeline1 feature data and cooresponding derivative }
+\PY{l+s+sd}{    2: the pipeline2 feature data and corresponding derivative}
+\PY{l+s+sd}{    3: pipeline1 derivative and pipeline2 derivative. Set the x limit }
+\PY{l+s+sd}{       to 8 and 12 seconds.}
+\PY{l+s+sd}{For all subplots, include axis labels, legends and titles.}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{}firstHalf are non derivative, lastHalf are derivative}
+\PY{n}{firstHalf} \PY{o}{=} \PY{n}{babyDataNames}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
+\PY{n}{lastHalf} \PY{o}{=} \PY{n}{babyDataNames}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{:}\PY{p}{]}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{35}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{3.0}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}plots data}
+\PY{n}{limit1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{time} \PY{o}{==} \PY{l+m+mi}{8}\PY{p}{)}
+\PY{n}{limit2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{time} \PY{o}{==} \PY{l+m+mi}{12}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{firstHalf}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{firstHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Entry}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{[}\PY{n}{lastHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Derivative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{[}\PY{n}{firstHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Feature}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{firstHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Entry}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{[}\PY{n}{lastHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Derivative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{[}\PY{n}{firstHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Feature}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{limit1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{limit2}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seconds}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{lastHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data1}\PY{p}{[}\PY{n}{lastHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pipeline1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{baby\PYZus{}data2}\PY{p}{[}\PY{n}{lastHalf}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pipeline2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
